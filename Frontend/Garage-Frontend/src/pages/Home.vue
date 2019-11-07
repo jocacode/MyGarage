@@ -29,12 +29,13 @@ import AddPost from '../components/AddPost'
 import Post from '../components/Post'
 import Header from '../components/Header'
 import MessageBox from "../components/MessageBox"
+//import Footer from '../components/Footer'
 
 export default {
-    components: { AddPost, Post, Header, MessageBox },
+    components: { AddPost, Post, Header, MessageBox},
     data(){
         return{
-            messaging: true
+            messaging: false
         }
     }
 }
@@ -76,8 +77,8 @@ export default {
     flex-direction: column;
     align-items: center;
     position: fixed;
-    width: 30%;
-    height: 400px;
+    width: 32%;
+    height: 750px;
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
     top: 0;
@@ -105,10 +106,15 @@ export default {
         justify-content: center;
         align-items: center;
     }
+    .message-garage{
+        width: 95%;
+    }
     .garage-container{
         position: relative;
-        width: 85%;
+        width: 100%;
         margin: 0px;
+        padding: 0px;
+        z-index: 0;
     }
     .post-container{
         width: 95%;

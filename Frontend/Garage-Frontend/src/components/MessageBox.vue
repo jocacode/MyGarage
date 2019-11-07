@@ -12,8 +12,8 @@ export default {
 
 <style>
 .message-container{
-     display: flex;
-    position: fixed;
+    display: flex;
+    position: relative;
     height: 420px;
     width: 20%;
     background-color: rgb(255, 255, 255);
