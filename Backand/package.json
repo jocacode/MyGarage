@@ -18,6 +18,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.11",
     "pug": "^2.0.4",
+    "pusher": "^3.0.0",
     "redis": "^2.8.0"
   },
   "devDependencies": {

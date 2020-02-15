@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const Joi = require('@hapi/joi');
+const pusher = require('../pusher');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const Car = require('../models/Car');
+const {PostValidation} = require('../validation');
 
 
-router.get('/', async (ctx) => {
+router.get('/GetPosts', async (ctx) => {
     try{
         const posts = await Post.find();
         ctx.res.json(posts);
@@ -46,6 +49,10 @@ router.get('/GetAllComments/:postId', async (ctx) => {
 })
 
 router.post('/AddPost', async (req, res) => {
+
+    const {error} = PostValidation(req.body);
+   if (error) return res.status(400).send(error.details[0].message);
+
     const post = new Post({
         Content: req.body.Content,
         LikeCount: 0,
@@ -54,8 +61,9 @@ router.post('/AddPost', async (req, res) => {
         UserId: req.body.UserId
     });
     try{
-    const savedPost = await post.save();
-    res.json(savedPost);
+        const savedPost = await post.save();
+        const push =  pusher.trigger('add-post','new-post', savedPost);
+        res.json(push);
     }
     catch(err){
         res.json({message: err});
@@ -65,23 +73,25 @@ router.post('/AddPost', async (req, res) => {
 router.put('/LikePost/:postId', async (req, res) => {
     const post = await Post.findById(req.params.postId);
 
-    await Post.findByIdAndUpdate({_id: post._id},
+    const updatedPost = await Post.findByIdAndUpdate({_id: post._id},
         {LikeCount: post.LikeCount + 1},
         (err, response) => {
             if(err) res.json({message: "Error in updating LikeCount!"});
             res.json(response);
         });
+    pusher.trigger('LikePost', 'like-post', updatedPost);
 })
 
 router.put('/DislikePost/:postId', async (req, res) => {
     const post = await Post.findById(req.params.postId);
 
-    await Post.findByIdAndUpdate({_id: post._id},
+    const updatedPost = await  Post.findByIdAndUpdate({_id: post._id},
         {DislikeCount: post.DislikeCount + 1},
         (err, response) => {
             if(err) res.json({message: "Error in updating LikeCount!"});
             res.json(response);
         });
+     pusher.trigger('DislikePost', 'dislike-post', updatedPost);
 })
 
 router.delete('/DeletePost/:id', async (ctx) => {
@@ -91,6 +101,11 @@ router.delete('/DeletePost/:id', async (ctx) => {
     }catch(err){
         ctx.res.json({message: '' + err});
     }
+    pusher.trigger('DeletePost', 'delete-post',
+    {
+        PostId: removedPost.PostId,
+        UserId: removedPost.UserId
+    })
 })
 
 

@@ -15,5 +15,14 @@ const loginValidation = (data) => {
     return schema.validate(data);
 }
 
+const PostValidation = (data) => {
+    return added_post.validate(data);
+}
+const CommentValidation = (data) => {
+    return added_comment.validate(data);
+}
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.PostValidation = PostValidation;
+module.exports.CommentValidation = CommentValidation;

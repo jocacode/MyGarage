@@ -21,7 +21,8 @@ const UserSchema =  mongoose.Schema({
     Date: {
         type: Date,
         default: Date.now
-    }
+    },
+    Cars: [mongoose.Schema.Types.ObjectId]
 });
 
 module.exports = mongoose.model('Users', UserSchema);

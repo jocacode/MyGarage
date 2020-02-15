@@ -13,7 +13,20 @@ const CarSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    Photos: []
+    Photos: [],
+    Year: {
+        type: String,
+        required: true
+    },
+    Engine: {
+        type: String,
+        required: true
+    },
+    Kilometars: {
+        type: Number,
+        required: true
+    }
+
 });
 
 module.exports = mongoose.model('Cars', CarSchema);
