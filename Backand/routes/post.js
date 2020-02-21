@@ -70,28 +70,44 @@ router.post('/AddPost', async (req, res) => {
     }
 });
 
-router.put('/LikePost/:postId', async (req, res) => {
-    const post = await Post.findById(req.params.postId);
+router.put('/LikePost/', async (req, res) => {
+    const post = await Post.findById(req.body.PostId);
+    const user_id_like = req.body.UserId;
 
-    const updatedPost = await Post.findByIdAndUpdate({_id: post._id},
-        {LikeCount: post.LikeCount + 1},
-        (err, response) => {
-            if(err) res.json({message: "Error in updating LikeCount!"});
-            res.json(response);
-        });
-    pusher.trigger('LikePost', 'like-post', updatedPost);
+    try{
+        if(post.Likes.includes(user_id_like)){
+            post.Likes = post.Likes.filter(el =>  el != user_id_like);
+            post.LikeCount = post.LikeCount - 1;
+        }else{
+            post.Likes.push(user_id_like);
+            post.LikeCount = post.LikeCount + 1;
+        }
+        await post.save();
+        pusher.trigger('like-post', 'new-like', post);
+        res.json({success: true});
+    }catch(err){
+        res.json({success: false});
+    }
 })
 
-router.put('/DislikePost/:postId', async (req, res) => {
-    const post = await Post.findById(req.params.postId);
+router.put('/DislikePost/', async (req, res) => {
+    const post = await Post.findById(req.body.PostId);
+    const user_id_dislike = req.body.UserId;
 
-    const updatedPost = await  Post.findByIdAndUpdate({_id: post._id},
-        {DislikeCount: post.DislikeCount + 1},
-        (err, response) => {
-            if(err) res.json({message: "Error in updating LikeCount!"});
-            res.json(response);
-        });
-     pusher.trigger('DislikePost', 'dislike-post', updatedPost);
+    try{
+        if(post.Dislikes.includes(user_id_dislike)){
+            post.Dislikes = post.Dislikes.filter(el =>  el != user_id_dislike);
+            post.DislikeCount = post.DislikeCount - 1;
+        }else{
+            post.Dislikes.push(user_id_dislike);
+            post.DislikeCount = post.DislikeCount + 1;
+        }
+        await post.save();
+        pusher.trigger('dislike-post', 'new-dislike', post);
+        res.json({success: true});
+    }catch(err){
+        res.json({success: false});
+    }
 })
 
 router.delete('/DeletePost/:id', async (ctx) => {

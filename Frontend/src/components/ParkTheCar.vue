@@ -1,8 +1,8 @@
 <template>
     <div class="park-the-car">
         <div class ="brands">
-            <b-field style="color:blue;" label="Izaberi Marku:">
-                <b-select placeholder="Sve Marke" v-model="CarToPark.SelectedBrand" @input="setCarModels">
+            <b-field style="color:blue;" id="label-position" label="Izaberi Marku:">
+                <b-select placeholder="Sve Marke" v-model="CarToPark.SelectedBrand" @input="setCarModels" expanded>
                     <option 
                         v-for="option in this.Cars"
                         :value="option"
@@ -11,8 +11,8 @@
                     </option>
                 </b-select>
             </b-field>
-            <b-field style="color:blue" label="Izaberi Model:">
-                <b-select placeholder="Svi Modeli" v-model="CarToPark.SelectedModel">
+            <b-field style="color:blue" id="label-position" label="Izaberi Model:">
+                <b-select placeholder="Svi Modeli" v-model="CarToPark.SelectedModel" expanded>
                     <option 
                         v-for="option in this.ModelList"
                         :value="option"
@@ -21,14 +21,14 @@
                     </option>
                 </b-select>
             </b-field>
-            <b-field label="Unesi Kilometre">
-                <b-input placeholder="Kilometri" v-model="CarToPark.InputKilometars"
+            <b-field label="Unesi Kilometre" id="label-position">
+                <b-input placeholder="Kilometri" v-model="CarToPark.InputKilometars" 
                     type="number" min="0" max="1000000"></b-input>
             </b-field>
         </div>
         <div class="info brands">
-            <b-field style="color:blue" label="Izaberi Gorivo:">
-                <b-select placeholder="Gorivo" v-model="CarToPark.SelectedEngine">
+            <b-field style="color:blue;" id="label-position" label="Izaberi Gorivo:">
+                <b-select placeholder="Gorivo" v-model="CarToPark.SelectedEngine" expanded>
                     <option 
                         v-for="option in Engines"
                         :value="option.Title"
@@ -37,8 +37,8 @@
                     </option>
                 </b-select>
             </b-field>
-            <b-field style="color:blue" label="Izaberi Godište:">
-                <b-select placeholder="Godina" v-model="CarToPark.SelectedYear">
+            <b-field style="color:blue" id="label-position" label="Izaberi Godište:">
+                <b-select placeholder="Godina" v-model="CarToPark.SelectedYear" expanded>
                     <option 
                         v-for="option in this.Years"
                         :value="option.Title"
@@ -47,10 +47,12 @@
                     </option>
                 </b-select>
             </b-field>
+            <b-button type="is-success" style="width: 100%; margin-bottom: 20px;"
+                >Dodaj sliku</b-button>
         </div>
         <div class="brands">
             <b-button type="is-info" style="width: 100%"
-                @click="ParkCar">Parkiraj automobil</b-button>
+               @click="ParkCar" >Parkiraj automobil</b-button>
         </div>
     </div>
 </template>
@@ -122,14 +124,17 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 185px;
+    height: 85%;
     width: 85%;
     background-color: rgb(250, 250, 250);
 }
 .brands{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
     width: 100%;
+}
+#label-position{
+    text-align: left;
 }
 </style>

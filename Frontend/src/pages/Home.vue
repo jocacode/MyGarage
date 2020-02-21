@@ -41,7 +41,7 @@ export default {
     components: { AddPost, Post, Header, ParkedCar, Cars, ParkTheCar },
     data(){
         return{
-            UserCars: null,
+            UserCars: [],
             Message: '',
             newPost: {},
             showComponent: 'cars',
@@ -115,10 +115,18 @@ export default {
                     this.Posts = [data, ...this.Posts];
             });
         },
+        createCarChannel: function(){
+            var carChannel = this.pusher.subscribe('add-car');
+            carChannel.bind('new-car', (data) => {
+                    console.log(data);
+                    this.UserCars = [data, ...this.UserCars];
+            });
+        },
     },
     async created() {
         this.setPusher();
         this.createPostChannels();
+        this.createCarChannel();
         this.LoadPosts();
         this.LoadMyCars();
         window.addEventListener('scroll', this.StickyElement);
@@ -143,7 +151,7 @@ export default {
     background-attachment: fixed;
     background-image: linear-gradient(
         rgb(95, 95, 95),
-        rgba(255, 255, 255, 0.034)
+        rgba(255, 255, 255, 0)
     );
     display: flex;
     justify-content: space-between;
@@ -174,7 +182,7 @@ export default {
     flex-direction: column;
     align-items: center;
     width: 32%;
-    height: 730px;
+    height: 800px;
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
     right: 0;

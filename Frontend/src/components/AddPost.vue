@@ -1,23 +1,27 @@
 <template>
     <div class="addpost-container">
-            <label style="font-size: 22px; padding:10px;">POSTAVI PITANJE O AUTOMOBILU</label>
-            <b-field>
-                <b-select
-                    aria-placeholder="Izaberi svoj automobil"
-                    expanded
-                    v-model="carId">
-                    <option v-for="item in this.UserCars" :key="item._id" :value="item._id">
-                        {{item.Brand}} {{item.Model}}
-                    </option>
-                </b-select>
-            </b-field>
-            <b-input maxlength="100"
-                type="textarea" v-model="content">
-            </b-input>
-            <div class="add-post-button">
-                <b-button type="is-info" size="is-big"
-                    @click="this.AddPost">OBJAVI
-                </b-button>
+            <div class="add-post"> 
+                <label style="font-size: 22px; margin-bottom: 15px;">Postavi pitanje o svom automobilu:</label>
+                <div class="select">
+                    <b-select
+                        placeholder="Izaberi svoj automobil"
+                        expanded
+                        v-model="carId">
+                        <option v-for="item in this.UserCars" :key="item._id" :value="item._id">
+                             {{item.Brand}} {{item.Model}}
+                        </option>
+                    </b-select>
+                </div>
+                <div class="input-section">
+                    <b-input maxlength="100" placeholder="Unesite tekst"
+                        type="textarea" v-model="content">
+                    </b-input>
+                </div>
+                <div class="add-post-button">
+                    <b-button type="is-info" size="is-big" style="width:100%" 
+                        @click="this.AddPost">OBJAVI
+                    </b-button>
+                </div>
             </div>
     </div>
 </template>
@@ -74,25 +78,54 @@ export default {
 <style>
 .addpost-container{
     width: 85%;
-    height: 265px;
+    height: 275px;
     margin-top: 50px;
     border: 0.5px solid #4C3C1B;
+    background-color: rgb(243, 243, 243);
     border-color: rgb(228, 226, 226);
-    border-radius: 2px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.add-post{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:60%;
+    height: 100%;
 }
 .add-post-button{
     display:flex;
     justify-content: flex-end;
+    width:100%;
+}
+.field{
+    display:flex;
+    flex-direction: column;
 }
 label{
     font-family: 'big'
 }
-.input{
-    width: 80%;
+.input-section{
+    width:100%;
+    height:45%;
+}
+.select{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    height:20%;
+    margin-bottom: 5px;
 }
 @media screen and (max-width: 600px) {
     .addpost-container{
         width: 95%;
+    }
+    .add-post{
+        width:100%;
     }
 }
 </style>

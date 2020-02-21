@@ -12,7 +12,15 @@ const CommentSchema = mongoose.Schema({
     UserId: {
         type: String,
         required: true
-    }
+    },
+    Likes: [{
+        type: String,
+        required: false
+    }],
+    Dislikes: [{
+        type: String,
+        required: false
+    }]
 
 });
 

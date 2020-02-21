@@ -7,7 +7,6 @@
         <div class="car-info">
             <div class="info">
                 <label>Godište: {{Car.Year}}</label>
-                <label>Kilometraža: {{Car.Kilometars}}km</label>
                 <label>Motor: {{Car.Engine}}</label>
             </div>
         </div>
@@ -68,7 +67,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    width: 100%;
     height: 100%;
 }
 label{

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Car = require('../models/Car');
 const User = require('../models/User');
+const pusher = require('../pusher');
 
 const router = express.Router();
 
@@ -42,7 +43,7 @@ router.post('/ParkTheCar', async (ctx) => {
         });
         userToUpdate.Cars.push(car._id.toString());
         userToUpdate.save();
-
+        pusher.trigger('add-car','new-car', savedCar);
         ctx.res.json(savedCar);
     }catch(err){
         ctx.res.json({message: err});

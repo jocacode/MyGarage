@@ -25,9 +25,10 @@ router.post('/AddComment',  async (req, res) => {
         PostId: req.body.PostId,
         UserId: req.body.UserId
     });
+    
     try{
         const savedComment = await comment.save();
-        pusher.trigger('AddedComment', 'new-comment', savedComment);
+        pusher.trigger('add-comment', 'new-comment', savedComment);
         res.json(savedComment);
         }
     catch(err){

@@ -7,10 +7,10 @@
             <label id="text">{{this.comment.Content}}</label>
         </div>
         <div class="comm-button">
-            <b-button style="width: 70px; height: 30px; 
-                margin-bottom: 10px; margin-right: 10px;" type="is-success" size="small"> Like</b-button>
-            <b-button style="width: 70px; height: 30px; 
-            margin-bottom: 10px;" type="is-danger">Dislike</b-button>
+            <b-button style="width: 60px; height: 27px;
+             margin: 5px;" type="is-success" size="is-small"> Like</b-button>
+            <b-button style="width: 50px; height: 25px; 
+             margin: 5px;" type="is-danger" size="is-small">Dislike</b-button>
         </div>
     </div>
 </template>
@@ -40,12 +40,12 @@ export default {
 .main-comm{
     display: flex;
     flex-direction: column;
-    width:100%;
+    width:95%;
     height:40%;
-    margin-top:10px;
-    background-color: rgb(206, 206, 206);
+    margin: 5px;
+    background-color: rgb(236, 236, 236);
     border: 0.8px solid #4C3C1B;
-    border-color: rgb(173, 173, 173);
+    border-color: rgb(221, 221, 221);
 }
 .comm-info{
     display: flex;
@@ -56,6 +56,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    align-content: center;
 }
 #text{
     font-family: 'big';
