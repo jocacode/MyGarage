@@ -9,8 +9,8 @@
                 <label id="post-content">{{Post.Content}}</label>
             </div>
             <div class="likes">
-                <b-button style="width: 70px; margin: 3px;" type="is-success" size="is-small"> Like ({{Post.LikeCount}}) </b-button>
-                <b-button style="width: 70px; margin: 3px;" type="is-danger" size="is-small">Dislike ({{Post.DislikeCount}})</b-button>
+                <b-button style="width: 70px; margin: 3px;" type="is-success" size="is-small" @click="LikePost()"> Like ({{this.Post.LikeCount}}) </b-button>
+                <b-button style="width: 70px; margin: 3px;" type="is-danger" size="is-small"  @click="DislikePost()">Dislike ({{this.Post.DislikeCount}})</b-button>
                 <a>  <img  :src="this.CommentPhoto" style="width:40px; height:40px" @click="ShowComments"/> </a>
             </div>
             
@@ -114,6 +114,25 @@ export default {
                 type: type,
             });
        },
+       LikePost: async function(){
+           const sendObject = {
+               PostId: this.Post._id,
+               UserId: getUserInfo().userId
+           };
+           const response = await apiFetch('PUT', destinationUrl + '/Post/LikePost', sendObject);
+           const res = await response.json();
+           if(!res.success)
+               alert("DB Problem");
+       },
+        DislikePost: async function(){
+           const sendObject = {
+               PostId: this.Post._id,
+               UserId: getUserInfo().UserId
+           };
+           const response = await apiFetch('PUT', destinationUrl + '/Post/DislikePost', sendObject);
+            if(!response.ok)
+                alert("DB Problem");
+       },
         setPusher: function(){
              this.pusher = new Pusher(process.env.VUE_APP_PUSHER_KEY, {
                     host: process.env.VUE_APP_DESTINANTION_URL,
@@ -127,11 +146,21 @@ export default {
                     this.Comments = [data, ...this.Comments];
             });
         },
+        createLikeDislikeChannel: function(){
+            var channel = this.pusher.subscribe('like-dislike');
+            channel.bind('new-like', (data) => {
+                    this.post.LikeCount = data;
+            });
+            channel.bind('new-dislike', (data) => {
+                    this.post.DislikeCount = data;
+            });
+        },
 
     },
     async created(){
         this.setPusher();
         this.createCommentChannel();
+        this.createLikeDislikeChannel();
         this.LoadCarInfo();
         this.LoadUserInfo();
     }

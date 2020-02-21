@@ -76,14 +76,15 @@ router.put('/LikePost/', async (req, res) => {
 
     try{
         if(post.Likes.includes(user_id_like)){
-            post.Likes = post.Likes.filter(el =>  el != user_id_like);
+            const list = post.Likes.filter(el =>  el != user_id_like);
+            if(list == null) post.Likes = []; else post.Likes = list;
             post.LikeCount = post.LikeCount - 1;
         }else{
             post.Likes.push(user_id_like);
             post.LikeCount = post.LikeCount + 1;
         }
         await post.save();
-        pusher.trigger('like-post', 'new-like', post);
+        pusher.trigger('like-dislike', 'new-like', post.LikeCount);
         res.json({success: true});
     }catch(err){
         res.json({success: false});
@@ -96,14 +97,15 @@ router.put('/DislikePost/', async (req, res) => {
 
     try{
         if(post.Dislikes.includes(user_id_dislike)){
-            post.Dislikes = post.Dislikes.filter(el =>  el != user_id_dislike);
+            const list = post.Dislikes.filter(el =>  el != user_id_dislike);
+            if(list == null) post.Dislikes = []; else post.Dislikes = list;
             post.DislikeCount = post.DislikeCount - 1;
         }else{
             post.Dislikes.push(user_id_dislike);
             post.DislikeCount = post.DislikeCount + 1;
         }
         await post.save();
-        pusher.trigger('dislike-post', 'new-dislike', post);
+        pusher.trigger('like-dislike', 'new-dislike', post.DislikeCount);
         res.json({success: true});
     }catch(err){
         res.json({success: false});

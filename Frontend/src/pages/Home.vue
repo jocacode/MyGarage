@@ -56,11 +56,11 @@ export default {
                     label: 'Automobili',
                     index: 'cars'
                 },
-                {
-                    key:3,
-                    label: 'Chat',
-                    index: 'chat'
-                }
+                // {
+                //     key:3,
+                //     label: 'Chat',
+                //     index: 'chat'
+                // }
             ],
             pusher: {},
             Posts: []
@@ -74,7 +74,6 @@ export default {
                 const posts = await response.json();
                 this.Posts = posts;
             }else alert('DB Problem');
-            console.log(this.Posts);
         },
         StickyElement: function() {
             if(this.showComponent == 'home'){
@@ -118,7 +117,6 @@ export default {
         createCarChannel: function(){
             var carChannel = this.pusher.subscribe('add-car');
             carChannel.bind('new-car', (data) => {
-                    console.log(data);
                     this.UserCars = [data, ...this.UserCars];
             });
         },
