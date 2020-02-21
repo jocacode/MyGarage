@@ -5,9 +5,10 @@
             <div class="post-container">
                 <label style="font-size:40px; margin-top:15px;">MY GARAGE</label>
                 <add-post :cars=UserCars  @submit="SaveNewPost($event)"></add-post>
-                <post v-for="post in Posts" 
-                        :key="post.index"
-                        :post="post"></post>
+                <post v-for="post in this.Posts" 
+                        :key="post._id"
+                        :post="post">
+                </post>
             </div>
             <div class="garage-container sticky-normal" id="sticky-header">
                 <label style="font-size:25px; margin-bottom: 15px;">PARKIRAJ SVOJ AUTOMOBIL OVDE</label>
@@ -40,7 +41,6 @@ export default {
     components: { AddPost, Post, Header, ParkedCar, Cars, ParkTheCar },
     data(){
         return{
-            Posts: [],
             UserCars: null,
             Message: '',
             newPost: {},
@@ -63,6 +63,7 @@ export default {
                 }
             ],
             pusher: {},
+            Posts: []
         }
     },
     methods: {
@@ -73,6 +74,7 @@ export default {
                 const posts = await response.json();
                 this.Posts = posts;
             }else alert('DB Problem');
+            console.log(this.Posts);
         },
         StickyElement: function() {
             if(this.showComponent == 'home'){
@@ -110,16 +112,11 @@ export default {
         createPostChannels: function(){
             var postChannel = this.pusher.subscribe('add-post');
             postChannel.bind('new-post', (data) => {
-                if(this.newPost.UserId == data.UserId)
                     this.Posts = [data, ...this.Posts];
             });
         },
-        setUpData: async function(){
-            this.LoadPosts();
-            this.LoadMyCars();
-        }
     },
-    created() {
+    async created() {
         this.setPusher();
         this.createPostChannels();
         this.LoadPosts();

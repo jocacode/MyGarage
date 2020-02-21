@@ -1,5 +1,5 @@
 <template>
-    <div class="post-container">
+    <div class="post-container" id="post-size">
         <div class="profile-section" id="profile">
             <label id="text">{{UserInfo.brand}} {{UserInfo.model}} {{UserInfo.year}}</label>
             <label>@{{UserInfo.username}}</label>
@@ -77,10 +77,9 @@ export default {
         ShowComments: function(){
             this.show_comment = !this.show_comment;
             const PostSection = document.getElementById('post');
+           // const PostSize = document.getElementById('post-size');
             if(this.show_comment){
-                //const CommentSection = document.getElementById('comment');
-                PostSection.style.height = 60 + '%';
-                //CommentSection.style.heighy = 30 + '%';
+                PostSection.style.height = 50 + '%';
                 this.LoadPostComments();
             }else{
                 PostSection.style.height = 90 + '%';
@@ -110,7 +109,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 80%;
+    height: 100%;
     width:100%;
 }
 .comment-section{
@@ -134,7 +133,7 @@ export default {
     background-color: rgb(243, 243, 243);
 }
 .post-section{
-     display: flex;
+    display: flex;
     flex-direction: column;
     width: 100%;
     height: 90%;

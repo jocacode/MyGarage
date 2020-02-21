@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Car = require('../models/Car');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -35,6 +36,13 @@ router.post('/ParkTheCar', async (ctx) => {
     });
     try{
         const savedCar = await car.save();
+        
+        const userToUpdate = await User.findOne({_id: car.UserId}, (error) => {
+            if(error) ctx.res.send(error);
+        });
+        userToUpdate.Cars.push(car._id.toString());
+        userToUpdate.save();
+
         ctx.res.json(savedCar);
     }catch(err){
         ctx.res.json({message: err});
