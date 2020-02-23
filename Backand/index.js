@@ -6,7 +6,6 @@ const CommentRouter = require('./routes/comment');
 const CarRouter = require('./routes/car');
 const UserRouter = require('./routes/user');
 const auth = require('./routes/auth');
-const MessageRouter = require('./routes/message');
 const LoadManagerRouter = require('./routes/loaderManager');
 const mongoose = require('mongoose');
 const app = express()
@@ -29,7 +28,6 @@ app.use('/Post', PostRouter);
 app.use('/Comment', CommentRouter);
 app.use('/Car', CarRouter);
 app.use('/Auth',auth);
-app.use('/Message', MessageRouter);
 app.use('/LoadManager', LoadManagerRouter);
 app.use('/User', UserRouter);
 

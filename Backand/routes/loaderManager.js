@@ -66,16 +66,6 @@ router.get('/LoadUserCars/:userId', async (ctx) => {
     }
 });
 
- /*1. LoadPosts(id) Ucitaj sve postove iz baze koji su vezani za 
- automobile koje user sa zadataim idjem poseduje. Prikazuju se n najboljih po lajkovima
- i sledeci load posts odnosno lik na + dodaje u listu prikazanih na frontendu jos n u nastavku 
- i tako sve dok ima postova*/
-
- /*2. LoadCarPosts(CarName) Ucitava sve postove za automobil specificirane marke i trebalo bi
- da izlista postove koji se odnose samo na taj automobil.*/
-
- /*3. LoadUserCars(id) Ucitava sve automobile usera odnosno vraca objekte tipa Car koji sadrze sve 
- informacije o automobilu koji je parkiran od strane usera id. Prikazuju se u sekciji MY CARS*/
 
 
 
